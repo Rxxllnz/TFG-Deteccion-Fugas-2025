@@ -14,7 +14,7 @@ Para mas información se incluye la memoria realizada para este Trabajo de Fin d
 
 ### Video demostrativo
 
-![](https://www.youtube.com/watch?v=p-8AencXYqs)
+[![Alt text](https://img.youtube.com/vi/p-8AencXYqs/0.jpg)](https://www.youtube.com/watch?v=p-8AencXYqs)
 
 
 ### Features
