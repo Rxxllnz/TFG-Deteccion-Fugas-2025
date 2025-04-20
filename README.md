@@ -8,6 +8,15 @@ En este proyecto se han llevado a cabo múltiples mejoras centradas en la fiabil
 
 Aunque no se ha modificado el sistema SCADA existente, se han planteado mejoras en la lógica interna de funcionamiento, consiguiendo una planta estable y operativa durante largos periodos de prueba.
 
+### Memoria
+
+Para mas información se incluye la memoria realizada para este Trabajo de Fin de Grado.
+
+### Video demostrativo
+
+![](https://www.youtube.com/watch?v=BD7QnDMz-As)
+
+
 ### Features
 
 - Support Standard Markdown / CommonMark and GFM(GitHub Flavored Markdown);
