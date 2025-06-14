@@ -1,4 +1,4 @@
-# Deteccion de Fugas
+# Detección de Fugas
 
 Durante los últimos años, en la Universidad de La Laguna se ha desarrollado un prototipo de estación de servicio a escala con el objetivo de simular dispensaciones y fugas de combustible bajo condiciones controladas. Este sistema ha servido como base para varios Trabajos de Fin de Grado y Fin de Máster.
 
