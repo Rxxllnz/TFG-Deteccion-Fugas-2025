@@ -1899,7 +1899,7 @@ void print(String Mensaje) {
 
   // Si el mensaje no está en el buffer, enviarlo y actualizar el buffer
   if (!mensajeRepetido) {
-    //Serial.println(Mensaje); // Enviar el mensaje
+    Serial.println(Mensaje); // Enviar el mensaje
     buffer[indiceBuffer] = Mensaje; // Guardar en el buffer actual
     indiceBuffer = (indiceBuffer + 1) % 5; // Actualizar el índice circular
   }

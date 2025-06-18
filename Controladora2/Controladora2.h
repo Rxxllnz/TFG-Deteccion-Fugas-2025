@@ -49,31 +49,31 @@ float calibracion_almacenamiento = 13000;
 
 #define dout_DepositoVentas1 35                               
 #define sck_DepositoVentas1 34
-float calibracion_DepositoVentas1 = 264000;                  
+float calibracion_DepositoVentas1 = 268000;                  
 
 #define dout_DepositoVentas2 36                                 
 #define sck_DepositoVentas2 37
-float calibracion_DepositoVentas2 = 268000;                     
+float calibracion_DepositoVentas2 = 264000;                     
 
-#define dout_fugas 39                                         
-#define sck_fugas 38
+#define dout_fugas 38                                         
+#define sck_fugas 39
 float calibracion_fugas = 310000;                               
 
 
 
 //  Actuadores
 
-const int PIN_RELE_VACIADO_DESCARGAS = 28;        // RELÉ 8
-const int PIN_RELE_LLENADO_VENTAS1 = 47;          // RELÉ 7
-const int PIN_RELE_LLENADO_VENTAS2 = 30;          // RELÉ 6
-const int PIN_RELE_VACIADO_FUGAS = 50;            // RELÉ 3
-const int PIN_RELE_VACIADO_VENTAS1 = 48;          // RELÉ 5
-const int PIN_RELE_VACIADO_VENTAS2 = 49;          // RELÉ 4
-const int PIN_RELE_LLENADO_DESCARGAS = 52;        // RELÉ 1
+const int PIN_RELE_VACIADO_DESCARGAS = 52;        // RELÉ 9
+const int PIN_RELE_LLENADO_VENTAS1 = 51;          // RELÉ 10
+const int PIN_RELE_LLENADO_VENTAS2 = 50;          // RELÉ 11
+const int PIN_RELE_VACIADO_FUGAS = 47;            // RELÉ 14
+const int PIN_RELE_VACIADO_VENTAS1 = 49;          // RELÉ 12
+const int PIN_RELE_VACIADO_VENTAS2 = 48;          // RELÉ 13
+const int PIN_RELE_LLENADO_DESCARGAS = 28;        // RELÉ 8
 
 #define PIN_ENA_fuga 46                                        
 #define PIN_IN1_fuga 45                                                                
-#define PIN_IN2_fuga 13    
+#define PIN_IN2_fuga 53    
 
 #define PWM_MAX 255
 

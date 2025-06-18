@@ -641,7 +641,9 @@ void Deposito::GenerarVolumenDisp () {
   int numero_sensor;
   
   if (_es_recarga == 0) {
-    _vol_prox_mov = (random (30, 100))/100;
+    float Prueba;
+     Prueba= random (30, 100);
+    _vol_prox_mov = Prueba/100;
     
   } else {
     numero_sensor = random (1,N_SENSORES_REC);      //N_SENSORES_REC
