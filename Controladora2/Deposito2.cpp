@@ -148,25 +148,13 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
 
   if (_es_fugas) {                
     _CaudalFuga = generar_caudal(LecturaPotAltura, LecturaPotDimensiones);
-  /*
-    Serial.println("");
-    Serial.println("");
-    Serial.println("Linea 154 de deposito, El deposito fugas tiene:");
-    Serial.print("PIN_IN1: ");
-    Serial.println(digitalRead(_PIN_IN1));
-    Serial.print("PIN_IN2: ");
-    Serial.println(digitalRead(_PIN_IN2));
-    Serial.print("PIN_ENA: ");
-    Serial.println(analogRead(_PIN_ENA));
-    Serial.println("");
-    Serial.println("");
-*/
+
   }
     
 
   if (EmergenciaControladora == HIGH) {                        // Se trata de la seta del panel, por lo que todos los tanques entran en alarma en conjunto
       _EstadoActualDeposito = EMERGENCIA;
-      //Serial.println("Entra por la linea 169");
+
   }
   
 
@@ -187,16 +175,14 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
       _EstadoActualDeposito = TANQUE_LLENO;
     }
   }
-//Serial.print("_EstadoActualDeposito =");
-//Serial.println(_EstadoActualDeposito);
-  delay(30);
+
+  delay(30); // Necesario para el funcionamiento del programa, si no los relés no se activan
 
   if (_EstadoActualDeposito == TANQUE_VACIO) {                                                                       
-    cerrar_valvula_llenado();
-    //Serial.println("Entra por la linea 180 cpp");                                                                              
+    cerrar_valvula_llenado();                                                                         
     cerrar_valvula_vaciado();                                                                                     
     if ((EstadoControladora != IDLE_VACIADO_CONTROLADORA) && (CierreControladora == 0)  &&  (_peticion_pausa_venta == 0)  &&  (InstanteActual >= _InstanteProxDisp)  &&  ( (_deposito_ant->ready_to_send(_vol_prox_mov) == 1) || (_es_fugas) || (_es_recarga) )    ) {
-     //Serial.println("Se pone en llenado");
+
       _EstadoActualDeposito = LLENADO; 
 
     } else if (CierreControladora == 1){
@@ -207,19 +193,10 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
 
 
   if ( (_EstadoActualDeposito == LLENADO) && (_peticion_pausa_fuga == 0) ) {  
-    if (_es_fugas){
-      //Serial.println("Linea 208 deposito Entra a abrir");
-
-    }        //  Estado que define el llenado del tanque
-    //if(_deposito_ant->get_volumen() >= 0.25 || _es_fugas == 1){
+  //  Estado que define el llenado del tanque
+    
     abrir_valvula_llenado();                                                                                   
-    cerrar_valvula_vaciado();
-    /*} else{
-    cerrar_valvula_llenado();                                                                                   
-    cerrar_valvula_vaciado();
-
-    }*/
-    //Serial.println("Entra por la linea 195 cpp");                                                                                            
+    cerrar_valvula_vaciado();                                                                                      
     if ((CierreControladora == 0) && ((_es_fugas == 0) && (_volumen >= _vol_prox_mov))) {
       _EstadoActualDeposito = TANQUE_LLENO;
       _volumen_total_venta = _volumen_total_venta + _volumen;
@@ -237,7 +214,7 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
 
   if (_EstadoActualDeposito == TANQUE_LLENO) {                      
     cerrar_valvula_llenado();
-    //Serial.println("Entra por la linea 212 cpp");                                                                            
+                                                                         
     cerrar_valvula_vaciado();                                                                                         
     if ((EstadoControladora != IDLE_VACIADO_CONTROLADORA) && (CierreControladora == 0) && (_es_fugas)) {                      
       _EstadoActualDeposito = VACIADO;
@@ -255,14 +232,10 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
   
 
   if (_EstadoActualDeposito == VACIADO) {   
-    //if(_deposito_ant->get_volumen() >= 0.25 || _es_fugas == 1){                                                       
+                                                     
     cerrar_valvula_llenado();                                                                             
     abrir_valvula_vaciado();
-    /*} else{
-    cerrar_valvula_llenado();                                                                             
-    cerrar_valvula_vaciado();
-
-    }   */                                                                                           
+                                                                                         
     if ((CierreControladora == 0) && (_volumen <= 0.3)) {     //UMBRAL_VACIO                                                               
       _EstadoActualDeposito = TANQUE_VACIO;
 
@@ -283,7 +256,6 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
 
     if (_es_recarga || _es_fugas){      //Si no es ventas, también cierra la válvula de llenado
       cerrar_valvula_llenado();   
-      //Serial.println("Entra por la linea 252 cpp");
     }
     
     if (_volumen > UMBRAL_VACIO){  
@@ -291,7 +263,6 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
       _ListoParaReiniciar = 0;
     } else {
       cerrar_valvula_llenado();
-      //Serial.println("Entra por la linea 260 cpp");
       _ListoParaReiniciar = 1;
     }
 
@@ -303,8 +274,7 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
 
 
   if (_EstadoActualDeposito == EMERGENCIA) {                                                                    
-    cerrar_valvula_llenado();                     
-    //Serial.println("Entra por la linea 273 cpp");                                                     
+    cerrar_valvula_llenado();                                                            
     cerrar_valvula_vaciado();                                                                                  
     
     return true;
@@ -324,12 +294,10 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
 
 void Deposito::abrir_valvula_llenado () {
   if (_volumen < _vol_max_seguridad){         //Mecanismo de seguridad para evitar desbordamientos, pero sin meter el sistema en emergencia (otra medida más de seguridad)
-  //Serial.println(_es_fugas);
     if (_es_fugas == 0) {
       digitalWrite(_PIN_Rele1_Llenado, LOW);   
     } else {
       if(digitalRead(15) == LOW){
-      //_CaudalFuga = 170;
       }
       digitalWrite(_PIN_IN1, HIGH);
       digitalWrite(_PIN_IN2, LOW);
@@ -404,25 +372,7 @@ int Deposito::ready_to_receive (float _vol_prox_mov) {
 }
 
 
-//MODIFICADO
-/*
-int Deposito::ready_to_receive (float _vol_prox_mov) {
-  //if(_es_fugas == 0){
-  if(_vol_max_seguridad > (_volumen + _vol_prox_mov)) {     
-    return 1;
-  } else {
-    return 0;
-  }
-}else{
 
-  if(_vol_max_seguridad < (_volumen + _vol_prox_mov)){
-    //Serial.print("Linea 395 tiene error en vol max: ");
-    //Serial.println(_volumen );
-  }
-  return 1;
-}
-}
-*/
 
 //  Método que indica si el tanque anterior está listo para realizar
 
@@ -433,25 +383,6 @@ int Deposito::ready_to_send (float _vol_prox_mov) {
     return 0;
   }
 }
-
-
-
-//  Método de conversión de volumen medido por las basculas //
-/*
-float Deposito::conversion_volumen () {    
-  float resultado;
-  static boolean newDataReady = 0;
-  const int serialPrintInterval = 44;                              //  Aumentar el valor para ralentizar la actividad de impresión en serie (44)
-  if (LoadCell.update()) newDataReady = true;                     //  Comprobar si hay nuevos datos / iniciar la siguiente conversión
-  if (newDataReady) {                                             //  Obtener un valor suavizado del conjunto de datos
-      resultado = LoadCell.getData(); 
-      newDataReady = false;
-  } else{
-    resultado = 1;
-  } 
-  return resultado;
-}
-*/
 
 float Deposito::conversion_volumen() {    
     const int maxRetries = 6;  // Intentar 3 veces antes de dar un error
@@ -507,14 +438,11 @@ bool Deposito::realizar_tara(bool _tare) {      //De manera predeterminada SÍ s
   unsigned long stabilizingtime = 3000;                             //  La precisión justo después del encendido se puede mejorar agregando unos segundos de tiempo de estabilización
   LoadCell.start(stabilizingtime, _tare);
   if (LoadCell.getTareTimeoutFlag()) {
-    //while (1);      //Investigar
-    //Serial.println("Tara NO Realizada :(");
     tara_realizada = false;
   
   } else {
     
     LoadCell.setCalFactor(calibrationValue);                       
-    //Serial.println("Tara Realizada correctamente");
     tara_realizada = true;
   }
   return tara_realizada;   
@@ -549,8 +477,7 @@ bool Deposito::solicitud_pausa_fuga() {
   bool fuga_pausada;
   _peticion_pausa_fuga = 1;  
   if(  (_peticion_pausa_fuga == 1)&&(_EstadoActualDeposito == LLENADO) ){    
-    cerrar_valvula_llenado();             
-    //Serial.println("Entra por la linea 481 cpp");                                                                  
+    cerrar_valvula_llenado();                                                                             
     fuga_pausada = 1;                       
   }
   return fuga_pausada;

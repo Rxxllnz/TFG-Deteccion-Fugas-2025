@@ -139,16 +139,6 @@ void setup () {
 
 
 void loop () {
-  print("Estado actual:");
-  print2(EstadoActual);
-  //print("Estado deposito");
-  //print(EstadoActualDeposito);
-  /////////////////////////////////////////////
-  //Serial.print("Valor A0: ");
-  //Serial.println(analogRead(PIN_POTENCIOMETRO_ALTURA));
-  //Serial.print("Valor A1: ");
-  //Serial.println(analogRead(PIN_POTENCIOMETRO_DIMENSIONES));
-  //////////////////////////////////////////////////
   
   InstanteActual = millis();
 
@@ -198,8 +188,6 @@ void loop () {
 
     if ((EstadoInterruptorManual == DIAL_AUTOMATICO) || ((EstadoInterruptorManual == DIAL_MANUAL) && (FlancoPulsadorStart == 1))){
       ActualizarEstadoGeneral(VACIADO);
-      //Serial.println("Pasando a Vaciado");
-      print("Pasando a Vaciado");
     }
 
     
@@ -214,8 +202,7 @@ void loop () {
  //Al entrar en esta etapa, no sabemos a qué nivel está cada tanque
 
   if (EstadoActual == VACIADO){
-    //Serial.println("Vaciado");
-    print("Vaciado");
+
 
 
     if (EstadoInterruptorEmergencia == HIGH) {
@@ -228,7 +215,7 @@ void loop () {
       DepositosVaciados = VaciarDepositosTiempo();   //la función hace el vaciado y devuelve un 1 cuando acaba
 
       if (DepositosVaciados){
-        print("Vaciado por tiempo terminado");
+
         ActualizarEstadoGeneral(RECIRCULACION); 
       }
 
@@ -245,7 +232,7 @@ void loop () {
     } else {                                      //BotoneraVaciadoPulsacion == LOW   &&   BotoneraVaciadoTiempo == LOW
       ActualizarEstadoGeneral(RECIRCULACION); 
     }
-    print("Vaciado por pulsacion terminado");
+
     //Poner pulsador a 0 para pasar a recirculacion
     if (FlancoPulsadorStop == 1){
     FlancoPulsadorStop = 0;
@@ -265,8 +252,7 @@ void loop () {
 
   if (EstadoActual == RECIRCULACION) {
 
-    //Serial.println("Recirculacion");
-    print("Recirculacion");
+
 
     if (EstadoInterruptorEmergencia == HIGH) {
       ActualizarEstadoGeneral(EMERGENCIA);
@@ -275,8 +261,7 @@ void loop () {
     DebugGeneral.EnviarMensajeDebug("Estado: RECIRCULACION", InstanteActual, EstadoActual);
 
     if (EstadoInterruptorRecirculacionTiempo == HIGH) {
-      //Serial.println("Recirculacion TIEMPO");
-      print("Recirculacion TIEMPO");
+
 		  DepositosRecirculados = RecircularDepositosTiempo(); 
 
       if (DepositosRecirculados){
@@ -284,8 +269,7 @@ void loop () {
       }
 
 	  } else if (EstadoInterruptorRecirculacionPulsacion == HIGH) {
-		  //Serial.println("Recirculacion PULSACION");
-      print("Recirculacion TIEMPO");
+
       RecircularDepositosPulsacion();
 
 		  if (FlancoPulsadorStop == 1){
@@ -311,9 +295,6 @@ void loop () {
 //Al entrar en esta etapa, se supone que todos los depósitos tienen únicamente el fondillo
 
   if (EstadoActual == TARA) {    
-    //Serial.println("Tara");
-    print("Tara");
-
 
     if (EstadoInterruptorEmergencia == HIGH) {
       ActualizarEstadoGeneral(EMERGENCIA);
@@ -322,20 +303,15 @@ void loop () {
     DebugGeneral.EnviarMensajeDebug("Estado: TARA", InstanteActual, EstadoActual);
 	
     if (EstadoInterruptorTara == HIGH) {
-      print("Realizando Tara Deposito Almacenamiento");
       bool TaraAlmacenamiento = DepositoAlmacenamiento.realizar_tara();
-      print("Realizando Tara Deposito Ventas1"); 
       bool TaraVentas1 = DepositoVentas1.realizar_tara();
-      print("Realizando Tara Deposito Ventas2");
       bool TaraVentas2 = DepositoVentas2.realizar_tara();
-      print("Realizando Tara Deposito Fugas");
       bool TaraFugas = DepositoFugas.realizar_tara(); 
  
       if (TaraVentas1 && TaraVentas2 && TaraAlmacenamiento && TaraFugas) {
         ActualizarEstadoGeneral(CALIBRACION);
         DebugGeneral.EnviarMensajeDebug("Tara 1 realizada", InstanteActual, EstadoActual);
         DebugGeneral.EnviarMensajeDebug("Pasando a Calibración", InstanteActual, EstadoActual);
-        print("Pasando a Calibracion");
       }
  
       
@@ -363,8 +339,6 @@ void loop () {
 
 
   if (EstadoActual == CALIBRACION) {   
-    //Serial.println("Calibracion");
-    print("Calibracion");
 
     if (EstadoInterruptorEmergencia == HIGH) {
       ActualizarEstadoGeneral(EMERGENCIA);
@@ -373,11 +347,10 @@ void loop () {
     DebugGeneral.EnviarMensajeDebug("Estado: CALIBRACION", InstanteActual, EstadoActual);
 
     if (EstadoInterruptorCalibracion == HIGH) {
-      print("Deposíto Calibraçao");
       DepositosCalibrados = CalibrarDepositos();
       
       if (DepositosCalibrados){
-        print("FIN Deposíto Calibraçao-CONDINICIALES");
+
         ActualizarEstadoGeneral(COND_INICIALES);
       }
 
@@ -397,8 +370,7 @@ void loop () {
 //Al entrar en esta etapa, todos los tanques tienen únicamente el fondillo, a excepción del depósito principal, que además tiene un volumen de descarga de nivel 2
 
   if (EstadoActual == COND_INICIALES) {
-    //Serial.println("Cond-Iniciales");
-    print("Cond-Iniciales");
+
     
     if (EstadoInterruptorEmergencia == HIGH) {
       ActualizarEstadoGeneral(EMERGENCIA);
@@ -428,8 +400,7 @@ void loop () {
 /********************************************************************************************************************************/
 
   if (EstadoActual == IDLE_FUNC_NORMAL){
-      //Serial.println("Pre-Funcionamiento_Normal");
-      print("Pre-Funcionamiento_Normal");
+
     
     if (EstadoInterruptorEmergencia == HIGH) {
       ActualizarEstadoGeneral(EMERGENCIA);
@@ -578,8 +549,6 @@ void loop () {
 
 //*******************************************  EMERGENCIA  *****************************************************************************************
   if (EstadoActual == EMERGENCIA) {
-    //Serial.println("EMERGENCIA!!!!!");
-    print("EMERGENCIA!!!!");
     
     DepositoDescargas.actualizar_estado(InstanteActual, TiempoTotalPausado, EstadoInterruptorEmergencia,  LecturaPotenciometroAltura, LecturaPotenciometroDimensiones, EstadoInterruptorCierre, !SOLIC_COMPR_INICIAL, EstadoActual);    //EstadoInterruptorEmergencia es HIGH
     DepositoVentas1.actualizar_estado(InstanteActual, TiempoTotalPausado, EstadoInterruptorEmergencia,  LecturaPotenciometroAltura, LecturaPotenciometroDimensiones, EstadoInterruptorCierre, !SOLIC_COMPR_INICIAL, EstadoActual);
@@ -735,9 +704,6 @@ bool VaciarDepositosTiempo(){
 
 void VaciarDepositosPulsacion(){
 
-  //Serial.println("Entra a VaciarDepositosPulsacion");
-  print("Entra a VaciarDepositosPulsacion");
-  //Serial.println(EstadoActual);
 
   DebugGeneral.EnviarMensajeDebug("Vaciando por pulsacion", InstanteActual, EstadoActual);
 
@@ -769,32 +735,32 @@ void VaciarDepositosPulsacion(){
 	if ((EstadoPulsadorBombeo == HIGH) && (FlancoPulsadorStart == 0) && (FlancoPulsadorStop == 0)) {
 		switch (Selector){
 			case 0:
-        print("Vaciado Ventas1");
+
 			  DepositoVentas1.abrir_valvula_vaciado();
         
 			  break;
 
 			case 1:
-        print("Vaciado Ventas2");
+
 			  DepositoVentas2.abrir_valvula_vaciado();
         
 			  break;
 
 			case 2:
-        print("Vaciado Fugas");
+
 			  DepositoFugas.abrir_valvula_vaciado();
         
 			  break;
 
 			case 3:
-        print("Vaciado Almacenamiento");
+
 			  DepositoAlmacenamiento.abrir_valvula_vaciado();
 			  DepositoVentas1.abrir_valvula_vaciado();
         
 		  	break;
 
 			case 4:
-        print("Vaciado Descargas");
+
         DepositoDescargas.abrir_valvula_vaciado();
         DepositoAlmacenamiento.abrir_valvula_vaciado();
         DepositoVentas1.abrir_valvula_vaciado();
@@ -886,10 +852,8 @@ print("Entra en Recirculacion por pulsacion");
 
 
 	if ((EstadoPulsadorBombeo == LOW) && (FlancoPulsadorStart == 1)) {
-    //Serial.print("Recirculacion SELECTOR:");
-    print("Recirculacion SELECTOR:");
-    //Serial.println(Selector);
-    print2(Selector); // REVISAR ESTO
+
+    printNumero(Selector);
 		Selector++;
 
 		if (Selector == 3) {      
@@ -900,8 +864,7 @@ print("Entra en Recirculacion por pulsacion");
 
 
 	if ((EstadoPulsadorBombeo == HIGH) && (FlancoPulsadorStart == 0) && (FlancoPulsadorStop == 0)) {  
-    //Serial.println("Recirculacion VOID 3 CASOS");
-    print("Recirculacion VOID 3 CASOS");
+
 		switch (Selector){                  
 			case 0: //Recircular Ventas 1
         DepositoAlmacenamiento.abrir_valvula_llenado();
@@ -958,16 +921,15 @@ bool CalibrarDepositos(){
 
 	bool FinCalibracion = 0;
 
-	if (EstadoCalibracionNivel == CALIBRACION_NIVEL_3){
-    print("Calibraçao Nivel 3");       
+	if (EstadoCalibracionNivel == CALIBRACION_NIVEL_3){    
 		CalibrarNivel3();
 
 	} else if (EstadoCalibracionNivel == CALIBRACION_NIVEL_2) {
-		print("Calibraçao Nivel 2");
+
     CalibrarNivel2();
 
 	} else if (EstadoCalibracionNivel == CALIBRACION_NIVEL_1) {
-    print("Calibraçao Nivel 1");
+
 		FinCalibracion = CalibrarNivel1();
 
 	}
@@ -984,15 +946,15 @@ bool EstablecerCondInic(){
 	bool FinCondIniciales = 0;
 
 		if (EstadoCondInicialesSubetapa == ESTABLECIENDO_MARGENES){
-      print("ESTABLECIENDO_MARGENES");
+
 			CondInicialesEstablecerMargenes();
 
 		} else if (EstadoCondInicialesSubetapa == NIVEL_ALMACENAMIENTO){
-      print("NIVEL_ALMACENAMIENTO");
+
 			CondInicialesEstablecerNivelAlmacenamiento();
 						
 		} else if (EstadoCondInicialesSubetapa == NIVEL_DESCARGAS){
-      print("NIVEL_DESCARGAS");
+
 			FinCondIniciales = CondInicialesEstablecerNivelDescargas();
 			
 		}
@@ -1010,7 +972,7 @@ bool EstablecerCondInic(){
 void CalibrarNivel3(){
 
   DebugGeneral.EnviarMensajeDebug("Calibrando Nivel 3", InstanteActual, EstadoActual);
-  print("Calibración Nivel 3");
+
 
 	if (EstadoCalibracionNivelSubetapa == LLENANDO_DESCARGAS){
 		DepositoDescargas.abrir_valvula_llenado();	
@@ -1145,17 +1107,9 @@ print("Calibración Nivel 1");
 
 
 void CondInicialesEstablecerMargenes(){
-  print("INICIO ESTABLECIENDO_MARGENES");
+
   DebugGeneral.EnviarMensajeDebug("Estableciendo margenes", InstanteActual, EstadoActual);
-  /*//Serial.print("Resta almacenamiento: ");
-  //Serial.println(VOL_MARGEN_TOTAL - DepositoAlmacenamiento.get_volumen());
-  //Serial.print("Valor almacenamiento: ");
-  //Serial.println(DepositoAlmacenamiento.get_volumen());
-  Serial.print("Valor ventas 1: ");
-  Serial.println(DepositoVentas1.get_volumen());
-  Serial.print("Valor Ventas 2: ");
-  Serial.println(DepositoVentas2.get_volumen());*/
-  
+
 
 	if (EstadoMargenes == ABRIENDO_DESCARGAS){
 		DepositoDescargas.abrir_valvula_llenado();
@@ -1163,7 +1117,7 @@ void CondInicialesEstablecerMargenes(){
 		EstadoMargenes = LLENANDO_PRINCIPAL;
 
 	} else if ((EstadoMargenes == LLENANDO_PRINCIPAL) && (DepositoAlmacenamiento.get_volumen() >= VOL_MARGEN_TOTAL)){
-    print("Volumen alcanzado Almacenamiento");
+
 		DepositoDescargas.cerrar_valvula_llenado();
     DepositoDescargas.cerrar_valvula_vaciado();
 
@@ -1181,27 +1135,19 @@ void CondInicialesEstablecerMargenes(){
     //Serial.println(VOL_MARGEN_FUGAS - DepositoFugas.get_volumen());
     
 		if (DepositoVentas1.get_volumen() >=  VOL_MARGEN_VENTAS1){
-      print("Margen Ventas 1");
+
 			DepositoVentas1.cerrar_valvula_llenado();
 			Ventas1MargenListo = 1;  
 		}
 		
 
 		if (DepositoVentas2.get_volumen() >=  VOL_MARGEN_VENTAS2){
-      print("Margen Ventas 2");
+
 			DepositoVentas2.cerrar_valvula_llenado();
 			Ventas2MargenListo = 1;  
       FugasMargenListo = 1;
 		}
 
-
-	  /*if (DepositoFugas.get_volumen() >=  VOL_MARGEN_FUGAS){
-      print("Margen Fugas");
-		  DepositoFugas.cerrar_valvula_llenado();
-		  FugasMargenListo = 1;  
-		}*/
-
-    
 
 		if (Ventas1MargenListo && Ventas2MargenListo && FugasMargenListo){
       //Aquí hacer otra tara antes de pasar a la siguiente subetapa 
@@ -1234,16 +1180,8 @@ void CondInicialesEstablecerMargenes(){
 void CondInicialesEstablecerNivelAlmacenamiento(){
 
   DebugGeneral.EnviarMensajeDebug("Estableciendo nivel aleatorio principal", InstanteActual, EstadoActual);
-  /*Serial.println("Resta: ");
-  print2(VolumenAleatorioAlmacenamiento - DepositoAlmacenamiento.get_volumen());
-  Serial.println("VolALeato: ");
-  print2(VolumenAleatorioAlmacenamiento);*/
 	if (EstadoNivelAlmacenamiento == ASIGNANDO_NIVEL_ALEATORIO) {
 		VolumenAleatorioAlmacenamiento = 0.01 * random(25, 75) * DepositoAlmacenamiento.get_VolMaxSeguridad();  //antes random(25,75)
-    //Serial.println("VolumenAleatorio: ");
-    print2(VolumenAleatorioAlmacenamiento);
-    //Serial.print("VolMaxSeguridad: ");
-    print2(DepositoAlmacenamiento.get_VolMaxSeguridad());  
 		DepositoDescargas.abrir_valvula_llenado();
 	  DepositoDescargas.abrir_valvula_vaciado();
 		EstadoNivelAlmacenamiento = DEPOSITANDO_NIVEL_ALEATORIO;     
@@ -1271,42 +1209,32 @@ bool CondInicialesEstablecerNivelDescargas(){
 
 	if (EstadoNivelDescargas == ASIGNANDO_NIVEL_ALEATORIO) {
 		VolumenAleatorioDescargas = random(1, 3);    
-    print("linea 1267-VolumenAleatorioDescargas Case:") ;
-    print2(VolumenAleatorioDescargas);
 
     DepositoDescargas.abrir_valvula_llenado();
 		EstadoNivelDescargas = DEPOSITANDO_NIVEL_ALEATORIO;
 
 	} else if (EstadoNivelDescargas == DEPOSITANDO_NIVEL_ALEATORIO){
-    /*Serial.print("Linea 1274-DescargasSensorNivel1: ");
-    Serial.println(DescargasSensorNivel1);
-    Serial.print("Linea 1274-DescargasSensorNivel2: ");
-    Serial.println(DescargasSensorNivel2);
-    Serial.print("Linea 1274-DescargasSensorNivel3: ");
-    Serial.println(DescargasSensorNivel3);*/
+
 		switch (VolumenAleatorioDescargas){
       case 1:
-      //Serial.println("Entra en case 1");
+
         if (DescargasSensorNivel1) {
-          //Serial.println("Entra en case 1, cierra valvula");
           DepositoDescargas.cerrar_valvula_llenado();         
 					return 1;
         }
         break;
 
       case 2:
-      //Serial.println("Entra en case 2");
         if (DescargasSensorNivel2) {
-          //Serial.println("Entra en case 2, cierra valvula");
           DepositoDescargas.cerrar_valvula_llenado();
 					return 1;
         }
         break;
 
       case 3:
-      //Serial.println("Entra en case 3");
+
         if (DescargasSensorNivel3) {
-          //Serial.println("Entra en case 3, cierra valvula");
+ 
           DepositoDescargas.cerrar_valvula_llenado();
 					return 1;
         }
@@ -1887,7 +1815,7 @@ void InicializacionVariables(){
 String buffer[5]; // Buffer para almacenar los últimos 5 mensajes
 int indiceBuffer = 0; // Índice para manejar el buffer circular
 
-void print(String Mensaje) {
+void printMensaje(String Mensaje) {
   // Verificar si el mensaje ya está en el buffer
   bool mensajeRepetido = false;
   for (int i = 0; i < 5; i++) {
@@ -1905,24 +1833,7 @@ void print(String Mensaje) {
   }
 }
 
-/*
-float DDPVentas1nuevo = DepositoVentas1.get_volumen();
-
-DDP (DDPVentas1nuevo);
-
-void DDP(float DDPVentas1nuevo){
- // static float DDPVentas1previo = 0;
-
-  if(abs(DDPVentas1nuevo - DDPVentas1previo) >= 0.5){
-    Serial.println("ERROR EN MEDIDA");
-  }
-
-  DDPVentas1previo = DDPVentas1nuevo;
-}
-
-*/
-
-void print2(float Entero){
+void printNumero(float Entero){
 
   if(Envio2 != Entero){
     //Serial.println(Entero);
