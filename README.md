@@ -1,12 +1,10 @@
 # Detección de Fugas
 
-Durante los últimos años, en la Universidad de La Laguna se ha desarrollado un prototipo de estación de servicio a escala con el objetivo de simular dispensaciones y fugas de combustible bajo condiciones controladas. Este sistema ha servido como base para varios Trabajos de Fin de Grado y Fin de Máster.
+Este Trabajo Fin de Grado documenta el proceso de puesta en funcionamiento y mejora de una planta automatizada, diseñada para simular una estación de servicio con el fin de generar datos útiles para la detección de fugas en depósitos subterráneos. A pesar de que el sistema había sido desarrollado en proyectos anteriores, presentaba múltiples errores de hardware y software que impedían su operatividad.
 
-El prototipo está diseñado como una herramienta de bajo coste, tanto para investigación en detección de fugas como para uso docente, permitiendo a los estudiantes probar y validar sus propios algoritmos de control y análisis.
+A lo largo del proyecto se identificaron y resolvieron fallos críticos como interferencias electromagnéticas, problemas de alimentación en los relés, lecturas inestables en sensores HX711, gestión incorrecta de volúmenes aleatorios y errores en la comunicación serie. Para su diagnóstico y corrección se implementaron herramientas de depuración propias, se mejoró la estructura del código y se aplicaron medidas físicas como el uso de cable apantallado, la separación de líneas sensibles y otras medidas que se detallarán a lo largo de la memoria.
 
-En este proyecto se han llevado a cabo múltiples mejoras centradas en la fiabilidad del sistema, incluyendo la revisión completa del cableado, la corrección de fugas en el circuito hidráulico y la depuración del código de control. También se han propuesto mejoras para una futura integración segura y ordenada del sistema eléctrico.
-
-Aunque no se ha modificado el sistema SCADA existente, se han planteado mejoras en la lógica interna de funcionamiento, consiguiendo una planta estable y operativa durante largos periodos de prueba.
+Finalmente, se llevó a cabo el montaje definitivo del sistema incluyendo una caja eléctrica con bornas, carriles DIN y protecciones adecuadas, dejando la planta en un estado funcional, seguro y mantenible. El sistema ha sido validado mediante pruebas prolongadas y condiciones variables, demostrando su robustez y estabilidad. Este trabajo sienta una base sólida para futuros desarrollos orientados a la detección de fugas y a la docencia en entornos de automatización industrial.
 
 ### Memoria
 
