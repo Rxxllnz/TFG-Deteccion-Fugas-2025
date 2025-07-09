@@ -29,7 +29,7 @@ const unsigned long TiempoSimMax = 3600000;     //1 hora en ms
 
 
 unsigned long InstanteDatalogger = 0;                               //  Instante en el que se realizó el Datalogging
-#define T_INTERVALO_DATALOGGER 10000                         
+#define T_INTERVALO_DATALOGGER 20000                         
 
 
 

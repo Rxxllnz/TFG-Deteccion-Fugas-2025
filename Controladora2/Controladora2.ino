@@ -364,7 +364,7 @@ void loop () {
 
   if (EstadoActual == CALIBRACION) {   
     //Serial.println("Calibracion");
-    print("Calibraçao");
+    print("Calibracion");
 
     if (EstadoInterruptorEmergencia == HIGH) {
       ActualizarEstadoGeneral(EMERGENCIA);

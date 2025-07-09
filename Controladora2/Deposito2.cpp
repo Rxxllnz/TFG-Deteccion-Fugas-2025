@@ -227,7 +227,7 @@ bool Deposito::actualizar_estado (unsigned long InstanteActual, unsigned long Ti
     } else if ((CierreControladora == 0) && ((_es_fugas) && (_volumen >= 0.9 * _vol_max_seguridad))) {
       _EstadoActualDeposito = TANQUE_LLENO;
       _volumen_total_fuga += _volumen;   
-      Serial.print("po encima de _vol_max");  
+      
 
     } else if (CierreControladora == 1){
       _EstadoActualDeposito = FIN_EXPERIMENTO;
@@ -437,7 +437,7 @@ int Deposito::ready_to_send (float _vol_prox_mov) {
 
 
 //  Método de conversión de volumen medido por las basculas //
-
+/*
 float Deposito::conversion_volumen () {    
   float resultado;
   static boolean newDataReady = 0;
@@ -446,10 +446,33 @@ float Deposito::conversion_volumen () {
   if (newDataReady) {                                             //  Obtener un valor suavizado del conjunto de datos
       resultado = LoadCell.getData(); 
       newDataReady = false;
-  }
+  } else{
+    resultado = 1;
+  } 
   return resultado;
 }
+*/
 
+float Deposito::conversion_volumen() {    
+    const int maxRetries = 6;  // Intentar 3 veces antes de dar un error
+    static bool newDataReady = false;
+    float resultado = 2.0;     // Valor por defecto si falla
+    
+    for (int i = 0; i < maxRetries; i++) {
+        if (LoadCell.update()) {
+            newDataReady = true;
+            break;  // Salir si hay datos nuevos
+        }
+        delay(10);  // Pequeña pausa entre reintentos
+    }
+
+    if (newDataReady) {
+        resultado = LoadCell.getData();
+        newDataReady = false;  // Resetear para la próxima lectura
+    }
+    
+    return resultado;
+}
 
 
 int Deposito::generar_caudal(int LecturaPotAltura, int LecturaPotDimensiones) {
@@ -489,6 +512,7 @@ bool Deposito::realizar_tara(bool _tare) {      //De manera predeterminada SÍ s
     tara_realizada = false;
   
   } else {
+    
     LoadCell.setCalFactor(calibrationValue);                       
     //Serial.println("Tara Realizada correctamente");
     tara_realizada = true;
