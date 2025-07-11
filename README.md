@@ -14,7 +14,7 @@ Para mas información se incluye la memoria realizada para este Trabajo de Fin d
 ### Video demostrativo con explicación
 
 
-[![Alt text](https://img.youtube.com/vi/KFtrlcwrUrw/1.jpg)](https://www.youtube.com/watch?v=KFtrlcwrUrw)
+[![Alt text](https://img.youtube.com/vi/KFtrlcwrUrw/0.jpg)](https://www.youtube.com/watch?v=KFtrlcwrUrw)
 
 ### Video demostrativo de 10 min de simulación
 
