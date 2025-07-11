@@ -10,6 +10,12 @@ Finalmente, se llevó a cabo el montaje definitivo del sistema incluyendo una ca
 
 Para mas información se incluye la memoria realizada para este Trabajo de Fin de Grado.
 
-### Video demostrativo
+
+### Video demostrativo con explicación
+
+
+[![Alt text](https://img.youtube.com/vi/KFtrlcwrUrw/1.jpg)](https://www.youtube.com/watch?v=KFtrlcwrUrw)
+
+### Video demostrativo de 10 min de simulación
 
 [![Alt text](https://img.youtube.com/vi/p-8AencXYqs/0.jpg)](https://www.youtube.com/watch?v=p-8AencXYqs)
